@@ -18,10 +18,10 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - Player
   - Ground
   - Enemy
-  - Player
+  - 
   - InspectObject
   - PostProcessing
   - 

@@ -11,6 +11,10 @@ public class Trap : MonoBehaviour
         damage = Enemy.Find(name).damage;
     }
 
+    void Update()
+    {
+        Debug.Log(damage);
+    }
     void OnCollisionEnter2D (Collision2D other)
     {
         if (other.transform.tag != "Player") return;

@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         InputKeys();
         MovePlayer();
         SetAnimation();
-        if (!isDead) return;
+        /*if (!isDead) return;*/
 
         SetHP();
     }
@@ -179,28 +179,35 @@ public class Player : MonoBehaviour
 
     void SetHP()
     {
-        hp -= Settings.HP_DEC;
+        /*hp -= Settings.HP_DEC;*/
         ScoreManager.hp = hp; // ScoreManager에 값 저장
 
-        if (hp < 0)
+        if (hp < 1)
         {
             isDead = true;
             Camera.main.SendMessage("SetTrack", false); // 카메라 트래킹 금지
             anim.SetBool("isDead", true);
             footPoint.SendMessage("SetDamage", -1);
+            SetPlayerDead();
         }
     }
 
     // HP 감소 (적과 상호작용)
     void SetDamage(int damage)
     {
+        if (Settings.canSound)
+        {
+            AudioClip clip = Resources.Load("Audio/PlayerHurt") as AudioClip;
+            AudioSource.PlayClipAtPoint(clip, transform.position);
+        }
+
         if (!isDead)
         {
+            hp += damage;
             Debug.Log("데미지 입음, " + damage);
-            hp = (damage < 0) ? damage : hp - damage;
-            footPoint.SendMessage("SetDamage", damage);
+            /*hp = (damage < 0) ? damage : hp - damage;
+            footPoint.SendMessage("SetDamage", damage);*/
             Debug.Log("hp : " + hp);
-            // SetPlayerDead();
         }
     }
 
@@ -226,16 +233,5 @@ public class Player : MonoBehaviour
         speedRun = Settings.SPEED_RUN;
         speedJump = Settings.SPEED_JUMP;
         gravity = Settings.GRAVITY;
-
-        // 테스트
-        /*Monster mob = Enemy.Find(name);
-        if (mob != null)
-        {
-            Debug.LogError(name + " : 정보 없음");
-        }
-        else
-        {
-            Debug.LogError("체력 : " + mob.hp);
-        }*/
     }
 }

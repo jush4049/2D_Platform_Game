@@ -15,6 +15,7 @@ public class Slime : MonoBehaviour
     public Transform target; // 플레이어
 
     Transform healthBar; // 체력 바
+
     void Start()
     {
         hp = Enemy.Find(name).hp;
@@ -46,7 +47,7 @@ public class Slime : MonoBehaviour
         if (other.tag == "Player")
         {
             target = other.transform;
-            anim.SetBool("hasTarget", true);
+            // anim.SetBool("hasTarget", true);
         }
     }
 
@@ -55,7 +56,7 @@ public class Slime : MonoBehaviour
         if (target != null && other.tag == "Player")
         {
             target = null;
-            anim.SetBool("hasTarget", false);
+            // anim.SetBool("hasTarget", false);
         }
     }
 
@@ -77,18 +78,18 @@ public class Slime : MonoBehaviour
     {
         if (target == null) return;
 
-        // Instantiate(Resources.Load("Spore"), target.position, Quaternion.identity);
+        // Instantiate(Resources.Load(""), target.position, Quaternion.identity);
         target.SendMessage("SetDamage", damage);
 
         // 정지
         target = null;
-        anim.SetBool("hasTarget", false);
+        // anim.SetBool("hasTarget", false);
     }
 
     // 몬스터 체력 소모 및 제거
     void SetDamage()
     {
-        // Instantiate(Resources.Load("Spore"), target.position, Quaternion.identity);
+        // Instantiate(Resources.Load(""), target.position, Quaternion.identity);
         hp--;
         healthBar.SendMessage("SetHP", hp / Enemy.Find(name).hp);
         if (hp < 0)

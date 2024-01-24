@@ -15,9 +15,12 @@ class Enemy
     // 적군 List
     static List<Monster> mob = new List<Monster>
     {
-        new Monster() {name = "Trap", hp = 0, damage = -1},
+        new Monster() {name = "Trap", hp = 0, damage = -3},
         new Monster() {name = "Spike", hp = 5, damage = -1, score = 200},
-        new Monster() {name = "Slime", hp = 5, damage = -1, score = 500}
+        new Monster() {name = "Slime", hp = 5, damage = -1, score = 500},
+        new Monster() {name = "Cannon", hp = 15, damage = -1, delay = 3, score = 400},
+        new Monster() {name = "Person", hp = 10, damage = -1, delay = 2, score = 300},
+        new Monster() {name = "Shield", hp = 30}
     };
 
     // 이름으로 적군 찾기
@@ -34,7 +37,7 @@ class Enemy
         float rate = 1 + Settings.level * 0.5f;
 
         newMob.hp = mob[idx].hp * rate;
-        newMob.damage = (int)Mathf.Clamp(mob[idx].damage * rate, -1, 10000);
+        newMob.damage = /*(int)Mathf.Clamp(mob[idx].damage * rate, -1, 10000);*/ mob[idx].damage * rate;
         newMob.delay = mob[idx].delay / rate;
         newMob.score = Mathf.FloorToInt(mob[idx].score * rate);
 

@@ -5,9 +5,10 @@ using UnityEngine;
 public class Destroy : MonoBehaviour
 {
     public GameObject obj;
+    public int delay;
 
     void Start()
     {
-        Destroy(obj, 1f);
+        Destroy(obj, delay);
     }
 }
