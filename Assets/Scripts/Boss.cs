@@ -13,7 +13,7 @@ public class Boss : MonoBehaviour
     float power = 300;     // 발사 힘
 
     Transform spawnPoint;  // 발사 오브젝트 생성 포인트
-    Transform target;      // 플레이어
+    public Transform target;      // 플레이어
     int dir = 1;           // 플레이어의 방향
 
     SpriteRenderer render; // 보스 SpriteRenderer
@@ -40,26 +40,13 @@ public class Boss : MonoBehaviour
         }
     }
 
-    void InitMonster()
-    {
-        spawnPoint = transform.Find("SpawnPoint");
-        render = GetComponent<SpriteRenderer>();
-
-        // 몬스터 정보
-        hp = Enemy.Find(name).hp;
-        damage = Enemy.Find(name).damage;
-        delay = Enemy.Find(name).delay;
-
-        // healthBar.SendMessage("SetHP", hp / Enemy.Find(name).hp;
-    }
-
     IEnumerator SetDestroy()
     {
         Destroy(GetComponent<Collider2D>());
         Destroy(GetComponent<Rigidbody2D>());
 
-        // Destroy(healthBar.gameObject);
-        GetComponent<Animator>().enabled = false;
+        Destroy(healthBar.gameObject);
+        // GetComponent<Animator>().enabled = false;
 
         Vector3 pos = transform.position;
 
@@ -131,7 +118,7 @@ public class Boss : MonoBehaviour
 
         // Collider, Animation 비활성화
         obj.GetComponent<Collider2D>().isTrigger = false;
-        obj.GetComponent<Animation>().enabled = false;
+        //obj.GetComponent<Animation>().enabled = false;
 
         // z축으로 -20 ~ 20도 회전
         float angle = Random.Range(-20, 20);
@@ -149,7 +136,7 @@ public class Boss : MonoBehaviour
 
     IEnumerator Attack()
     {
-        MakeBall(false); // 1발 사격
+        // MakeBall(false); // 1발 사격
 
         // 3 ~ 5발 랜덤 사격
         int count = Random.Range(3, 6);
@@ -167,9 +154,9 @@ public class Boss : MonoBehaviour
         Vector3 pos = spawnPoint.position;
         float speed = (isHigh) ? 0 : ballSpeed * dir;
 
-        GameObject ball = Instantiate(Resources.Load("BossBall")) as GameObject;
+        GameObject ball = Instantiate(Resources.Load("SpikeBall")) as GameObject;
         ball.transform.position = pos;
-        //ball.GetComponent<BossBall>().SetSpeedAndDamage(speed, damage);
+        ball.GetComponent<SpikeBall>().SetSpeedAndDamage(speed, damage);
 
         // 발사각
         if (isHigh)
@@ -185,47 +172,68 @@ public class Boss : MonoBehaviour
 
         if (Settings.canSound)
         {
-            AudioClip clip = Resources.Load("Audio/ShotBoss") as AudioClip;
+            AudioClip clip = Resources.Load("Audio/BossShot") as AudioClip;
             AudioSource.PlayClipAtPoint(clip, transform.position);
         }
+    }
 
-        void OnTriggerEnter2D (Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
         {
-            if (other.tag == "Player")
-            {
-                target = other.transform;
+            target = other.transform;
 
-                // 플레이어 방향으로 회전
-                dir = (transform.position.x > target.position.x) ? -1 : 1;
-                FlipBoss();
-            }
+            // 플레이어 방향으로 회전
+            dir = (transform.position.x > target.position.x) ? -1 : 1;
+            FlipBoss();
         }
+    }
 
-        void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Player")
         {
-            switch (other.transform.tag)
-            {
-                case "Player":
-                    target.SendMessage("SetDamage", -1);
-                    break;
-                case "Bullet":
-                    /*if (shield == null)*/ SetDamage();
-                    break;
-            }
+            target = null;
         }
+    }
 
-        void SetDamage()
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        switch (other.transform.tag)
         {
-            Vector3 pos = transform.position;
-
-            hp--;
-
-            // healthBar.SendMessage("SetHP", hp / Enemy.Find(name).hp;
-
-            if (hp < 0)
-            {
-                // StartCoroutine(SetDestroy());
-            }
+            case "Player":
+                target.SendMessage("SetDamage", -1);
+                break;
+            case "Bullet":
+                /*if (shield == null)*/
+                SetDamage();
+                break;
         }
+    }
+
+    void SetDamage()
+    {
+        Vector3 pos = transform.position;
+
+        hp--;
+
+        healthBar.SendMessage("SetHP", hp / Enemy.Find(name).hp);
+
+        if (hp < 0)
+        {
+            StartCoroutine(SetDestroy());
+        }
+    }
+    void InitMonster()
+    {
+        spawnPoint = transform.Find("SpawnPoint");
+        render = GetComponent<SpriteRenderer>();
+
+        // 몬스터 정보
+        hp = Enemy.Find(name).hp;
+        damage = Enemy.Find(name).damage;
+        delay = Enemy.Find(name).delay;
+
+        healthBar = transform.Find("HealthBar");
     }
 }

@@ -76,7 +76,7 @@ public class Person : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            // target = null;
+            target = null;
 
             // 중단 시간부터 애니메이션 재생
             /*anim[clipName].time = animTime;
