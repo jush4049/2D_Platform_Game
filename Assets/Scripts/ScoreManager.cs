@@ -6,9 +6,9 @@ public class ScoreManager
     static public int heart = 0; // ³²Àº ÇÃ·¹ÀÌ¾î ¼ö
     static public int score = 0; // µæÁ¡
 
-    static public int coin = 0;  // È¹µæÇÑ ÄÚÀÎ ¼ö
-    static public int gem = 0;   // È¹µæÇÑ º¸¼® ¼ö
-    static public int combo = 0; // ´Þ¼ºÇÑ ÄÞº¸ ¼ö
+    static public int coinCount = 0;  // È¹µæÇÑ ÄÚÀÎ ¼ö
+    static public int gemCount = 0;   // È¹µæÇÑ º¸¼® ¼ö
+    static public int comboCount = 0; // ´Þ¼ºÇÑ ÄÞº¸ ¼ö
     
     /*score += Settings.COIN_SCORE;
     score += Settings.GEM_SCORE;
@@ -16,13 +16,13 @@ public class ScoreManager
 
     static public void AddCoin()
     {
-        coin++;
+        coinCount++;
         score += 10;
     }
 
     static public void AddGem()
     {
-        gem++;
+        gemCount++;
         score += 50;
     }
 
@@ -30,12 +30,12 @@ public class ScoreManager
     {
         if (isCombo)
         {
-            combo++;
-            score += combo * 100;
+            comboCount++;
+            score += comboCount * 100;
         }
         else
         {
-            combo = 0;
+            comboCount = 0;
         }
     }
 
@@ -49,6 +49,6 @@ public class ScoreManager
         hp = Settings.HP;
         heart = Settings.MAX_PLAYER;
 
-        score = coin = gem = combo = 0;
+        score = coinCount = gemCount = comboCount = 0;
     }
 }

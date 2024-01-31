@@ -13,8 +13,8 @@ public class Boss : MonoBehaviour
     float power = 300;     // 발사 힘
 
     Transform spawnPoint;  // 발사 오브젝트 생성 포인트
-    public Transform target;      // 플레이어
-    int dir = 1;           // 플레이어의 방향
+    Transform target;      // 플레이어
+    int dir;           // 플레이어의 방향
 
     SpriteRenderer render; // 보스 SpriteRenderer
     Transform healthBar;   // 체력바
@@ -22,7 +22,6 @@ public class Boss : MonoBehaviour
     void Start()
     {
         InitMonster();
-        //StartCoroutine(SetDestroy()); // 테스트
     }
     
     void Update()
@@ -136,7 +135,7 @@ public class Boss : MonoBehaviour
 
     IEnumerator Attack()
     {
-        // MakeBall(false); // 1발 사격
+        MakeBall(false); // 1발 사격
 
         // 3 ~ 5발 랜덤 사격
         int count = Random.Range(3, 6);
@@ -151,6 +150,7 @@ public class Boss : MonoBehaviour
     {
         if (target == null) return;
 
+        int dir = (transform.position.x > target.position.x) ? -1 : 1;
         Vector3 pos = spawnPoint.position;
         float speed = (isHigh) ? 0 : ballSpeed * dir;
 
@@ -184,7 +184,8 @@ public class Boss : MonoBehaviour
             target = other.transform;
 
             // 플레이어 방향으로 회전
-            dir = (transform.position.x > target.position.x) ? -1 : 1;
+            dir = (transform.position.x > target.position.x) ? 1 : -1;
+
             FlipBoss();
         }
     }
@@ -235,5 +236,6 @@ public class Boss : MonoBehaviour
         delay = Enemy.Find(name).delay;
 
         healthBar = transform.Find("HealthBar");
+        // target = GameObject.Find("Player").GetComponent<Transform>();
     }
 }

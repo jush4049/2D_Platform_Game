@@ -214,6 +214,7 @@ public class Player : MonoBehaviour
     void SetPlayerDead()
     {
         // GameManager에 통지 - 보류
+        GameObject.Find("GameManager").SendMessage("PlayerDead");
         Destroy(gameObject);
     }
 

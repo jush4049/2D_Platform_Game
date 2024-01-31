@@ -12,7 +12,7 @@ public class Slime : MonoBehaviour
     int dir = 1; // 이동 방향
     float speed = 1; // 이동 속도
 
-    public Transform target; // 플레이어
+    Transform target; // 플레이어
 
     Transform healthBar; // 체력 바
 

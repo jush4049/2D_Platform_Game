@@ -21,7 +21,9 @@ public class Person : MonoBehaviour
     float animTime;   // 애니메이션 중단 지점
     string clipName;
 
-    public Transform target;    // 플레이어
+    int dir;           // 플레이어의 방향
+
+    Transform target;    // 플레이어
     Transform healthBar; // 체력바
 
     void Start()
@@ -36,12 +38,6 @@ public class Person : MonoBehaviour
             ShootPerson();
             time = Time.time;
         }
-        int localScaledir = (transform.position.x > target.position.x) ? -1 : 1;
-
-        // 플레이어 방향으로 뒤집기
-        Vector3 scale = transform.localScale;
-        scale.x = Mathf.Abs(scale.x) * localScaledir;
-        transform.localScale = scale;
     }
 
     void ShootPerson()
@@ -65,6 +61,16 @@ public class Person : MonoBehaviour
         {
             target = other.transform;
             pos = person.position;
+
+            // 플레이어 방향으로 회전
+            // dir = (transform.position.x > target.position.x) ? 1 : -1;
+
+            int localScaledir = (transform.position.x > target.position.x) ? -1 : 1;
+
+            // 플레이어 방향으로 뒤집기
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Abs(scale.x) * localScaledir;
+            transform.localScale = scale;
 
             // 애니메이션 중단 시간 저장
             /*animTime = anim[clipName].time;

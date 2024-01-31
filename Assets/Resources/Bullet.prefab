@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunFire: {fileID: 5641828478161267595, guid: 99d349c2df368cc4b9ceb408bd263dd2, type: 3}
-  soundClip: {fileID: 8300000, guid: d6abde54b8eec5547b09e4fb071159e0, type: 3}
+  soundClip: {fileID: 8300000, guid: 82c48550a21b6a84ea23669d328b331f, type: 3}
 --- !u!58 &-205078456127042119
 CircleCollider2D:
   m_ObjectHideFlags: 0
