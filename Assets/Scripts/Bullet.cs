@@ -22,8 +22,8 @@ public class Bullet : MonoBehaviour
     {
         // 발사구름 & 사운드
         Instantiate(gunFire, transform.position, transform.rotation); // 발사구름은 총알이 향하는 방향으로 만듦
-        AudioSource.PlayClipAtPoint(soundClip, transform.position); // 오디오 클립을 지정한 위치에서 재생
-        if (Settings.canSound) AudioSource.PlayClipAtPoint(soundClip, transform.position);
+        /*AudioSource.PlayClipAtPoint(soundClip, transform.position); // 오디오 클립을 지정한 위치에서 재생
+        if (Settings.canSound) AudioSource.PlayClipAtPoint(soundClip, transform.position);*/
         Destroy(gameObject, 1f);
     }
 

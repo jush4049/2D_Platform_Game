@@ -21,11 +21,11 @@ public class Settings
     #region "GameManager -----------"
     // const로 선언한 자료는 상수이므로 스크립트에서 값 변경 불가 및 대문자 사용 필요
     // const로 선언한 자료는 그 자체가 정적 자료이므로 static을 붙이지 않음
-    public const int STAGE = 3;        // 게임 전체 스테이지 수
-    public const int MAX_PLAYER = 5;   // Player 수
+    public static int STAGE_COUNT = 3;        // 게임 전체 스테이지 수
+    public static int MAX_PLAYER = 5;   // Player 부활 횟수
 
-    public const int stageNum = 1;     // 현재의 Stage 번호
-    public const int lastStage = 1;    // 진행한 최종 Stage
+    public static int stageNum = 1;     // 현재의 Stage 번호
+    public static int lastStage = 1;    // 진행한 최종 Stage
     #endregion
 
     #region "Player Status -----------"

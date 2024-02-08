@@ -10,6 +10,7 @@ TagManager:
   - Coin
   - Enemy
   - Bullet
+  - Gem
   layers:
   - Default
   - TransparentFX
@@ -44,9 +45,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1802038029
+    locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: New Layer
-    uniqueID: 1802038029
     locked: 0

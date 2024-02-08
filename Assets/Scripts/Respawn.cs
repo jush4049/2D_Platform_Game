@@ -11,7 +11,11 @@ public class Respawn : MonoBehaviour
             Destroy(GetComponent<Collider2D>());
             GetComponent<SpriteRenderer>().color = new Color(0, 1, 0.8f, 1);
 
-            GameObject.Find("GameManager").SendMessage("NewSpawnPoint", transform.position);
+            GameObject.Find("GameManager").SendMessage("NewRespawnPoint", transform.position);
+
+            GameObject score = Instantiate(Resources.Load("Score")) as GameObject;
+            score.transform.position = transform.position;
+            score.SendMessage("RespawnPoint");
         }
     }
 }

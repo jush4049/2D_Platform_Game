@@ -31,7 +31,6 @@ public class ScoreText : MonoBehaviour
 
             yield return null;
         }
-
         Destroy(gameObject);
     }
 
@@ -60,5 +59,12 @@ public class ScoreText : MonoBehaviour
         {
             textScore.color = Color.red;
         }
+    }
+
+    void RespawnPoint()
+    {
+        textScore = transform.Find("ScoreText").GetComponent<Text>();
+        textScore.color = new Color(0, 0.4f, 0, 1);
+        textScore.text = "Save!";
     }
 }

@@ -21,7 +21,7 @@ public class DestroySelf : MonoBehaviour
 
         if (Settings.canSound)
         {
-            AudioClip clip = Resources.Load("Audio/test") as AudioClip;
+            AudioClip clip = Resources.Load("Audio/Bullet") as AudioClip;
             AudioSource.PlayClipAtPoint(clip, pos);
         }
     }

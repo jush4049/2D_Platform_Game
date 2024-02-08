@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     // Game State
     enum STATE {start, play, wait, respawn, clear, complete, gameOver};
     STATE state;
+
     // Top Panel UI
     Text textStage;
     Text textCoin;
@@ -29,6 +31,14 @@ public class GameManager : MonoBehaviour
     // Main Camera Offset
     Vector3 camOffset = new Vector3(3, -2, -10);
 
+    // PopUp UI
+    GameObject panelMask;
+    GameObject panelMenu;
+    GameObject panelGameOver;
+    GameObject panelComplete;
+    GameObject panelCurrent;
+
+    GameObject panelOption;
 
     void Awake()
     {
@@ -38,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // SetScore();
+        SetScore();
 
         switch (state)
         {
@@ -48,19 +58,26 @@ public class GameManager : MonoBehaviour
                 break;
             case STATE.play:
                 SetScore();
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    OpenPopup(panelMenu);
+                }
                 break;
             case STATE.respawn:
                 // 플레이어 리스폰
                 StartCoroutine(PlayerRespawn());
                 break;
             case STATE.clear:
-                //
+                // 스테이지 클리어
+                StartCoroutine(NextStage());
                 break;
             case STATE.complete:
-                //
+                // 미션 성공
+                OpenPopup(panelComplete);
                 break;
             case STATE.gameOver:
-                //
+                // 게임 종료
+                OpenPopup(panelGameOver);
                 break;
         }
     }
@@ -134,7 +151,7 @@ public class GameManager : MonoBehaviour
 
     void InitGame()
     {
-        // UI 구성
+        // Canvas UI 구성
         textStage = GameObject.Find("TextStage").GetComponent<Text>();
         textCoin = GameObject.Find("TextCoin").GetComponent<Text>();
         textGem = GameObject.Find("TextGem").GetComponent<Text>();
@@ -143,6 +160,20 @@ public class GameManager : MonoBehaviour
         textScore = GameObject.Find("TextScore").GetComponent<Text>();
         textHeart = GameObject.Find("TextHeart").GetComponent<Text>();
 
+        // PopUp UI 구성
+        panelMask = GameObject.Find("PanelMask");
+        panelMenu = GameObject.Find("PanelMenu");
+        panelGameOver = GameObject.Find("PanelGameOver");
+        panelComplete = GameObject.Find("PanelComplete");
+
+        panelOption = GameObject.Find("PanelOption");
+
+        panelMask.SetActive(false);
+        panelMenu.SetActive(false);
+        panelGameOver.SetActive(false);
+        panelComplete.SetActive(false);
+
+        panelOption.SetActive(false);
         // 체력바 초기화
         hpSize = GameObject.Find("PanelTop/HP").GetComponent<RectTransform>().sizeDelta;
         hpGauge = GameObject.Find("HP/Gauge").GetComponent<RectTransform>();
@@ -155,5 +186,111 @@ public class GameManager : MonoBehaviour
         // 배경 음악
         AudioSource music = GetComponent<AudioSource>();
         if (Settings.canMusic) music.Play();
+
+        Cursor.visible = false;
+    }
+
+    // 팝업창 열기
+    void OpenPopup (GameObject panel)
+    {
+        state = STATE.wait;
+        Time.timeScale = 0;
+        
+        panelMask.SetActive(true);
+        panel.SetActive(true);
+        panelCurrent = panel;
+        Cursor.visible = true;
+    }
+
+    // 팝업창 닫기
+    void ClosePopup ()
+    {
+        panelMask.SetActive(false);
+        panelCurrent.SetActive(false);
+
+        Time.timeScale = 1;
+        Cursor.visible = false;
+    }
+
+    // 버튼 이벤트
+    public void OnButtonClick(GameObject button)
+    {
+        switch (button.name)
+        {
+            case "CloseButton":
+            case "NoButton":
+                ClosePopup();
+                state = STATE.play;
+                break;
+            case "QuitButton":
+            case "YesButton":
+                ClosePopup();
+                SceneManager.LoadScene("GameTitle");
+                break;
+            case "AgainButton":
+                ClosePopup();
+                ScoreManager.isStart = true;
+                ScoreManager.Clear();
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                break;
+            case "OptionButton":
+                panelOption.SetActive(true);
+                break;
+            case "OptionMenuCloseButton":
+                panelOption.SetActive(false);
+                break;
+
+        }
+    }
+
+    void SetClear()
+    {
+        state = STATE.clear;
+    }
+
+    IEnumerator Fadeout()
+    {
+        // MaskPanel 활성화
+        Image image = panelMask.GetComponent<Image>();
+        panelMask.SetActive(true);
+
+        for (float a = 0; a < 1; a += 0.02f)
+        {
+            image.color = new Color(0, 0, 0, a);
+            yield return null;
+        }
+    }
+    IEnumerator NextStage()
+    {
+        state = STATE.wait;
+        yield return StartCoroutine(Fadeout());
+
+        // 마지막 스테이지인지 확인
+        if (Settings.stageNum >= Settings.STAGE_COUNT)
+        {
+            state = STATE.complete;
+            yield break;
+        }
+
+        // 스테이지 전환
+        Settings.stageNum++;
+        if (Settings.stageNum > Settings.lastStage)
+        {
+            Settings.lastStage = Settings.stageNum;
+        }
+
+        // 플레이어 체력 회복
+        ScoreManager.hp += Settings.HP_ADD;
+        hpMax = Settings.PlayerHP;
+
+        // 다음 스테이지 입장
+        SceneManager.LoadScene("Stage" + Settings.stageNum);
+    }
+
+    void OnEnable()
+    {
+        string str = SceneManager.GetActiveScene().name;     // 활성화된 씬의 이름 구하기, 씬의 번호를 구할 경우에는 name 대신 buildIndex 사용
+        int n = int.Parse(str.Substring(5));                 // 문자열의 다섯 번째부터 끝까지 자르고 정수로 변환
+        Settings.stageNum = n;
     }
 }

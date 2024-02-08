@@ -1,3 +1,4 @@
+using UnityEngine.SceneManagement;
 
 public class ScoreManager
 {
@@ -9,11 +10,17 @@ public class ScoreManager
     static public int coinCount = 0;  // 획득한 코인 수
     static public int gemCount = 0;   // 획득한 보석 수
     static public int comboCount = 0; // 달성한 콤보 수
-    
+
+    static public bool isStart = true; // 게임이 시작되는가?
+
     /*score += Settings.COIN_SCORE;
     score += Settings.GEM_SCORE;
     score += combo * Settings.COIN_SCORE;*/
 
+    void OnEnable()
+    {
+        string str = SceneManager.GetActiveScene().name;
+    }
     static public void AddCoin()
     {
         coinCount++;
@@ -50,5 +57,8 @@ public class ScoreManager
         heart = Settings.MAX_PLAYER;
 
         score = coinCount = gemCount = comboCount = 0;
+
+        if (!isStart) return;
+        isStart = false;
     }
 }

@@ -8,7 +8,7 @@ public class Teleport : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            // ¿€º∫
+            GameObject.Find("GameManager").SendMessage("SetClear");
         }
     }
 }
