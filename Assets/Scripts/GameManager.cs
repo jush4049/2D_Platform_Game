@@ -168,12 +168,13 @@ public class GameManager : MonoBehaviour
 
         panelOption = GameObject.Find("PanelOption");
 
+        panelOption.SetActive(false);
+
         panelMask.SetActive(false);
         panelMenu.SetActive(false);
         panelGameOver.SetActive(false);
         panelComplete.SetActive(false);
 
-        panelOption.SetActive(false);
         // 체력바 초기화
         hpSize = GameObject.Find("PanelTop/HP").GetComponent<RectTransform>().sizeDelta;
         hpGauge = GameObject.Find("HP/Gauge").GetComponent<RectTransform>();
@@ -182,10 +183,6 @@ public class GameManager : MonoBehaviour
         // Score Manager
         ScoreManager.Clear();
         hpMax = Settings.PlayerHP;
-
-        // 배경 음악
-        AudioSource music = GetComponent<AudioSource>();
-        if (Settings.canMusic) music.Play();
 
         Cursor.visible = false;
     }
@@ -239,7 +236,6 @@ public class GameManager : MonoBehaviour
             case "OptionMenuCloseButton":
                 panelOption.SetActive(false);
                 break;
-
         }
     }
 

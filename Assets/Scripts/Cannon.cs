@@ -12,7 +12,7 @@ public class Cannon : MonoBehaviour
     float power = 150; // 발사하는 힘
     Vector3 pos;       // 오브젝트 생성 위치
     
-    public Transform target;    // 플레이어
+    Transform target;    // 플레이어
     Transform healthBar; // 체력바
 
     void Start()
@@ -90,7 +90,7 @@ public class Cannon : MonoBehaviour
 
         if (hp < 0)
         {
-            // SendMessage("SetDestroy", pos);
+            SendMessage("SetDestroy", transform.position);
             Destroy(gameObject);
         }
     }

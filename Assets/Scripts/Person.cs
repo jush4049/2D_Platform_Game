@@ -112,7 +112,7 @@ public class Person : MonoBehaviour
 
         if (hp < 0)
         {
-            // SendMessage("SetDestroy", pos);
+            SendMessage("SetDestroy", pos);
             Destroy(gameObject);
         }
     }

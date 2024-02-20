@@ -56,7 +56,6 @@ public class Slime : MonoBehaviour
         if (target != null && other.tag == "Player")
         {
             target = null;
-            // anim.SetBool("hasTarget", false);
         }
     }
 
@@ -83,7 +82,6 @@ public class Slime : MonoBehaviour
 
         // 정지
         target = null;
-        // anim.SetBool("hasTarget", false);
     }
 
     // 몬스터 체력 소모 및 제거

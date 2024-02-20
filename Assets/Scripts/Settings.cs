@@ -29,7 +29,7 @@ public class Settings
     #endregion
 
     #region "Player Status -----------"
-    public const float HP = 3;         // 체력
+    public const float HP = 10;         // 체력
     public const float HP_INC = 5;     // Stage별 체력 증가분
     public const float HP_DEC = 1;     // 1초에 소모하는 체력
 
@@ -48,7 +48,7 @@ public class Settings
     public const int GEM_SCORE = 50;    // 보석 득점
     public const int COMBO_SCORE = 100; // 콤보 득점
 
-    public const int HP_ADD = 50;       // 주인공 체력 획득
+    public const int HP_ADD = 5;       // 주인공 체력 획득
     #endregion
 
     #region "Enmey Status -----------"
