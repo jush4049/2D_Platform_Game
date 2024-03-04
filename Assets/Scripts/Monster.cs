@@ -16,12 +16,13 @@ class Enemy
     static List<Monster> mob = new List<Monster>
     {
         new Monster() {name = "Trap", hp = 0, damage = -10},
-        new Monster() {name = "Spike", hp = 5, damage = -1, score = 200},
+        new Monster() {name = "Spike", hp = 100, damage = -3, score = 1},
         new Monster() {name = "Slime", hp = 5, damage = -1, score = 100},
-        new Monster() {name = "Cannon", hp = 15, damage = -2, delay = 3, score = 300},
-        new Monster() {name = "Person", hp = 10, damage = -1, delay = 2, score = 200},
+        new Monster() {name = "Rat", hp = 1, damage = -1, score = 200},
+        new Monster() {name = "Cannon", hp = 15, damage = -3, delay = 3, score = 300},
+        new Monster() {name = "Person", hp = 500, damage = -1, delay = 2, score = 1},
         new Monster() {name = "Shield", hp = 30},
-        new Monster() {name = "Boss", hp = 100, damage = -3, delay = 5, score = 1000}
+        new Monster() {name = "Boss", hp = 50, damage = -3, delay = 5, score = 1000}
     };
 
     // 이름으로 적군 찾기

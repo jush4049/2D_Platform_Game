@@ -44,8 +44,9 @@ public class Settings
     #endregion
 
     #region "Item -----------"
-    public const int COIN_SCORE = 10;   // ÄÚÀÎ µæÁ¡
-    public const int GEM_SCORE = 50;    // º¸¼® µæÁ¡
+    public const int COIN_SCORE = 10;   // ¾ÆÀÌÅÛ µæÁ¡
+    public const int GEM_SCORE = 50;    
+    public const int ENERGY_SCORE = 200;    
     public const int COMBO_SCORE = 100; // ÄÞº¸ µæÁ¡
 
     public const int HP_ADD = 5;       // ÁÖÀÎ°ø Ã¼·Â È¹µæ

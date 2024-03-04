@@ -140,7 +140,7 @@ Transform:
   m_GameObject: {fileID: 3438731741819689365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.541, y: -0.001, z: 0}
+  m_LocalPosition: {x: 0.701, y: -0.108, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -156,9 +156,9 @@ GameObject:
   m_Component:
   - component: {fileID: 982991839116667696}
   - component: {fileID: 8754308480152894178}
-  - component: {fileID: 177518574001059558}
+  - component: {fileID: 423394450041318173}
   m_Layer: 7
-  m_Name: FootPoint
+  m_Name: AudioPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,7 +188,8 @@ AudioSource:
   m_GameObject: {fileID: 4675944130697689745}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 5572592679662417312, guid: 3c72b52cda8a9dc43b35ca5df114b39b,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -275,7 +276,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &177518574001059558
+--- !u!114 &423394450041318173
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -288,12 +289,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
+  - {fileID: 8300000, guid: 9fb60e8cfca7f48468754ed66edf01db, type: 3}
+  - {fileID: 8300000, guid: 29079f7326ab79247809d1ba0bfd5a8b, type: 3}
+  - {fileID: 8300000, guid: 451f2d921eacae947ace2d7b5a219428, type: 3}
   - {fileID: 8300000, guid: 29079f7326ab79247809d1ba0bfd5a8b, type: 3}
   - {fileID: 8300000, guid: 29079f7326ab79247809d1ba0bfd5a8b, type: 3}
-  - {fileID: 8300000, guid: 29079f7326ab79247809d1ba0bfd5a8b, type: 3}
-  - {fileID: 8300000, guid: 29079f7326ab79247809d1ba0bfd5a8b, type: 3}
-  - {fileID: 8300000, guid: 29079f7326ab79247809d1ba0bfd5a8b, type: 3}
-  score: {fileID: 0}
 --- !u!1 &5256262442747188834
 GameObject:
   m_ObjectHideFlags: 0
@@ -5300,7 +5300,7 @@ Transform:
   m_GameObject: {fileID: 8315313796366389778}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.78, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

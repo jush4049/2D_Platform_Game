@@ -35,7 +35,7 @@ public class ScoreText : MonoBehaviour
     }
 
     // 점수 설정
-    void SetScore (int score)
+    void SetScore(int score)
     {
         textScore.text = score.ToString("+0; -0");
 

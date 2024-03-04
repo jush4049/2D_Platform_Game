@@ -38,7 +38,6 @@ public class MovingGround : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             other.transform.parent = body; // 플레이어를 오브젝트의 자식으로 설정
-            Debug.Log("OnCollisionEnter2D");
         }
     }
 
@@ -47,7 +46,6 @@ public class MovingGround : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             other.transform.parent = null; // 플레이어를 자식에서 해제
-            Debug.Log("OnCollisionExit2D");
         }
     }
 }

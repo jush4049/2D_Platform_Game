@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
+    AudioSource audio;
+
+    void Start()
+    {
+        audio = GetComponent<AudioSource>();
+    }
+
     void OnTriggerEnter2D (Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -16,6 +23,8 @@ public class Respawn : MonoBehaviour
             GameObject score = Instantiate(Resources.Load("Score")) as GameObject;
             score.transform.position = transform.position;
             score.SendMessage("RespawnPoint");
+
+            audio.Play();
         }
     }
 }

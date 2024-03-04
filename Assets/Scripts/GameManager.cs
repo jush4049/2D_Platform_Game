@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     Text textStage;
     Text textCoin;
     Text textGem;
-    Text textCombo;
     Text textScore;
     Text textHeart;
 
@@ -134,7 +133,6 @@ public class GameManager : MonoBehaviour
     {
         textStage.text = Settings.stageNum.ToString("00");
         textCoin.text = ScoreManager.coinCount.ToString();
-        textCombo.text = ScoreManager.comboCount.ToString();
         textGem.text = ScoreManager.gemCount.ToString();
         textScore.text = ScoreManager.score.ToString("#,0");
         textHeart.text = ScoreManager.heart.ToString("x 0");
@@ -156,7 +154,6 @@ public class GameManager : MonoBehaviour
         textCoin = GameObject.Find("TextCoin").GetComponent<Text>();
         textGem = GameObject.Find("TextGem").GetComponent<Text>();
 
-        textCombo = GameObject.Find("TextCombo").GetComponent<Text>();
         textScore = GameObject.Find("TextScore").GetComponent<Text>();
         textHeart = GameObject.Find("TextHeart").GetComponent<Text>();
 
@@ -242,6 +239,7 @@ public class GameManager : MonoBehaviour
     void SetClear()
     {
         state = STATE.clear;
+        Cursor.visible = true;
     }
 
     IEnumerator Fadeout()

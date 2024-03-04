@@ -6,8 +6,8 @@ public class Bullet : MonoBehaviour
 {
     float speed = 15;
 
-    public GameObject gunFire; // 프리팹 파티클
-    public AudioClip soundClip; // Audio/FX/Laser
+    public GameObject gunFire;
+    // public AudioClip soundClip;
 
     void Awake() // 초기화
     {
@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
         Instantiate(gunFire, transform.position, transform.rotation); // 발사구름은 총알이 향하는 방향으로 만듦
         /*AudioSource.PlayClipAtPoint(soundClip, transform.position); // 오디오 클립을 지정한 위치에서 재생
         if (Settings.canSound) AudioSource.PlayClipAtPoint(soundClip, transform.position);*/
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 0.5f);
     }
 
     void Update()

@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - Bullet
   - Gem
+  - Energy
+  - Slide
   layers:
   - Default
   - TransparentFX
@@ -22,7 +24,7 @@ TagManager:
   - Player
   - Ground
   - Enemy
-  - 
+  - Bullet
   - InspectObject
   - PostProcessing
   - 

@@ -19,9 +19,16 @@ public class Boss : MonoBehaviour
     SpriteRenderer render; // 보스 SpriteRenderer
     Transform healthBar;   // 체력바
 
+    public AudioClip[] clips; // 오디오 클립을 인스펙터에서 할당하도록 public 배열로 작성
+    AudioSource bossAudioSource; // 오디오 소스
+
+    GameObject bossHealthBar;    // 체력바
+    GameObject gameAudio;        // 배경음악 오브젝트
+
     void Start()
     {
         InitMonster();
+        bossAudioSource = GetComponent<AudioSource>();
     }
     
     void Update()
@@ -50,14 +57,15 @@ public class Boss : MonoBehaviour
         Vector3 pos = transform.position;
 
         // 폭파 및 아이템 생성
-        Instantiate(Resources.Load("Explosion"), pos, Quaternion.identity);
+        Instantiate(Resources.Load("MonsterExplosion"), pos, Quaternion.identity);
         StartCoroutine(MakeGem());
-        
+
         // 폭파 사운드
         if (Settings.canSound)
         {
-            AudioClip clip = Resources.Load("Audio/BossRemove") as AudioClip;
-            AudioSource.PlayClipAtPoint(clip, pos);
+            /*AudioClip clip = Resources.Load("Audio/BossRemove") as AudioClip;
+            AudioSource.PlayClipAtPoint(clip, pos);*/
+            BossSound(1);
         }
 
         // 서서히 투명하게 적용
@@ -133,6 +141,12 @@ public class Boss : MonoBehaviour
         transform.localScale = scale;
     }
 
+    void BossSound(int kind)
+    {
+        bossAudioSource.clip = clips[kind]; // 종류에 맞는 오디오 클립 설정
+        if (Settings.canSound) bossAudioSource.Play();
+    }
+
     IEnumerator Attack()
     {
         MakeBall(false); // 1발 사격
@@ -154,9 +168,9 @@ public class Boss : MonoBehaviour
         Vector3 pos = spawnPoint.position;
         float speed = (isHigh) ? 0 : ballSpeed * dir;
 
-        GameObject ball = Instantiate(Resources.Load("SpikeBall")) as GameObject;
+        GameObject ball = Instantiate(Resources.Load("SkullBall")) as GameObject;
         ball.transform.position = pos;
-        ball.GetComponent<SpikeBall>().SetSpeedAndDamage(speed, damage);
+        ball.GetComponent<SkullBall>().SetSpeedAndDamage(speed, damage);
 
         // 발사각
         if (isHigh)
@@ -172,8 +186,7 @@ public class Boss : MonoBehaviour
 
         if (Settings.canSound)
         {
-            AudioClip clip = Resources.Load("Audio/BossShot") as AudioClip;
-            AudioSource.PlayClipAtPoint(clip, transform.position);
+            BossSound(0);
         }
     }
 
@@ -187,6 +200,8 @@ public class Boss : MonoBehaviour
             dir = (transform.position.x > target.position.x) ? 1 : -1;
 
             FlipBoss();
+            gameAudio.SetActive(false);
+            bossHealthBar.SetActive(true);
         }
     }
 
@@ -195,6 +210,8 @@ public class Boss : MonoBehaviour
         if (other.tag == "Player")
         {
             target = null;
+            bossHealthBar.SetActive(false);
+            gameAudio.SetActive(true);
         }
     }
 
@@ -206,7 +223,6 @@ public class Boss : MonoBehaviour
                 target.SendMessage("SetDamage", -1);
                 break;
             case "Bullet":
-                /*if (shield == null)*/
                 SetDamage();
                 break;
         }
@@ -215,16 +231,19 @@ public class Boss : MonoBehaviour
     void SetDamage()
     {
         Vector3 pos = transform.position;
-
         hp--;
 
         healthBar.SendMessage("SetHP", hp / Enemy.Find(name).hp);
 
         if (hp < 0)
         {
+            Vector3 telPos = new Vector3(183, 26, 0); // 텔레포트 오브젝트 생성 좌표
+            Instantiate(Resources.Load("Teleport"), telPos, Quaternion.identity);
+            gameAudio.SetActive(true);
             StartCoroutine(SetDestroy());
         }
     }
+
     void InitMonster()
     {
         spawnPoint = transform.Find("SpawnPoint");
@@ -235,7 +254,10 @@ public class Boss : MonoBehaviour
         damage = Enemy.Find(name).damage;
         delay = Enemy.Find(name).delay;
 
-        healthBar = transform.Find("HealthBar");
-        // target = GameObject.Find("Player").GetComponent<Transform>();
+        healthBar = transform.Find("BossHealthBar");
+        bossHealthBar = GameObject.Find("BossHealthBar");
+        bossHealthBar.SetActive(false);
+
+        gameAudio = GameObject.Find("Audio");
     }
 }

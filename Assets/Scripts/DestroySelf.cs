@@ -8,7 +8,7 @@ public class DestroySelf : MonoBehaviour
     {
         if (transform.name != "Shield")
         {
-            Instantiate(Resources.Load("Gem"), pos + new Vector3(0, 1, 0), Quaternion.identity);
+            Instantiate(Resources.Load("Gem"), pos + new Vector3(0, 0, 0), Quaternion.identity);
 
             // Á¡¼ö
             GameObject scoreText = Instantiate(Resources.Load("Score")) as GameObject;

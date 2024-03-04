@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     Vector2 moveDir;
     int dir = 1;
 
-    Transform footPoint;
+    Transform audioPoint;
     Transform gunPoint;
 
     float speedJump;
@@ -28,6 +28,10 @@ public class Player : MonoBehaviour
 
     float hp = Settings.HP;
     bool isDead = false;
+
+    bool isGun = false;
+
+    SpriteRenderer render;
 
     void Awake()
     {
@@ -90,24 +94,27 @@ public class Player : MonoBehaviour
     void JumpPlayer()
     {
         CheckGround(); // 지면 위인지 조사
-        if (isGround && Input.GetButtonDown("Jump")) // 다단 점프 금지
+        if (isGround && Input.GetButtonDown("Jump"))
         {
+            isGround = false;
             transform.parent = null; // 움직이는 발판에 있을 시 부모 오브젝트 해제
             moveDir.y -= gravity * Time.deltaTime; // 점프와 하강에 중력 적용
             moveDir.y = speedJump;
-            isGround = false;
-            FootSound(2);
+            SfxSound(1);
         }
     }
 
     void CheckGround()
     {
-        if (Physics2D.OverlapCircle(footPoint.position, 0.1f, ground)) // footpoint 위치에 가상의 원을 설정하고 원의 내부에 ground 레이어가 있는지 조사
+        if (Physics2D.OverlapCircle(audioPoint.position, 0.1f, ground)) // footpoint 위치에 가상의 원을 설정하고 원의 내부에 ground 레이어가 있는지 조사
         {
             isGround = true;
             // moveDir.y = -1;
         }
-
+        else
+        {
+            //isGround = false;
+        }
         // 머리 위의 장애물 조사
         Vector3 pos = transform.position; // bounds / 2
         pos.y += extents.y;
@@ -141,17 +148,19 @@ public class Player : MonoBehaviour
         anim.SetFloat("speed", Mathf.Abs(moveDir.x)); // 애니메이션의 Parameter speed는 0보다 크면 Run이므로 이동 속도의 절댓값 사용
         anim.SetFloat("velocity", moveDir.y); // 애니메이션 매개변수 설정
         anim.SetBool("isGround", isGround);
+        anim.SetBool("isGun", isGun);
     }
 
-    // 애니메이션 이벤트
-    void FootSound(int kind)
+    void SfxSound(int kind)
     {
-        footPoint.SendMessage("PlaySound", kind);
+        audioPoint.SendMessage("PlaySound", kind);
     }
 
     void FireGun()
     {
         if (!Input.GetKeyDown(KeyCode.LeftControl)) return;
+
+        StartCoroutine(GunAnimation());
 
         // 방향 설정
         Quaternion rotation = transform.rotation;
@@ -162,13 +171,23 @@ public class Player : MonoBehaviour
 
         Instantiate(bullet, gunPoint.position, rotation); // 플레이어의 방향으로 발사
     }
-    
+
+    IEnumerator GunAnimation()
+    {
+        isGun = true;
+        yield return new WaitForSeconds(1f);
+        isGun = false;
+    }
+
     void LongJump()
     {
         isGround = false; // 애니메이션 점프 모션 실행
         moveDir.y = speedJump * 1.5f; // 점프 높이 설정
 
-        FootSound(2);
+        if (Settings.canSound)
+        {
+            SfxSound(2);
+        }
     }
 
     void AddHP()
@@ -184,12 +203,20 @@ public class Player : MonoBehaviour
 
         if (hp < 1)
         {
+            Instantiate(Resources.Load("Gravestone"), transform.position, Quaternion.identity);
             isDead = true;
             Camera.main.SendMessage("SetTrack", false); // 카메라 트래킹 금지
             anim.SetBool("isDead", true);
-            footPoint.SendMessage("SetDamage", -1);
+            audioPoint.SendMessage("SetDamage", -1);
             SetPlayerDead();
         }
+    }
+
+    IEnumerator Hurt()
+    {
+        render.color = new Color(1, 0, 0, 1);
+        yield return new WaitForSeconds(0.3f);
+        render.color = new Color(1, 1, 1, 1);
     }
 
     // HP 감소 (적과 상호작용)
@@ -197,8 +224,10 @@ public class Player : MonoBehaviour
     {
         if (Settings.canSound)
         {
-            AudioClip clip = Resources.Load("Audio/PlayerHurt") as AudioClip;
-            AudioSource.PlayClipAtPoint(clip, transform.position);
+            /*AudioClip clip = Resources.Load("Audio/PlayerHurt") as AudioClip;
+            AudioSource.PlayClipAtPoint(clip, transform.position);*/
+            SfxSound(2);
+            StartCoroutine(Hurt());
         }
 
         if (!isDead)
@@ -206,7 +235,7 @@ public class Player : MonoBehaviour
             hp += damage;
             Debug.Log("데미지 입음, " + damage);
             /*hp = (damage < 0) ? damage : hp - damage;
-            footPoint.SendMessage("SetDamage", damage);*/
+            AudioPoint.SendMessage("SetDamage", damage);*/
             Debug.Log("hp : " + hp);
         }
     }
@@ -218,17 +247,45 @@ public class Player : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Coin" && Settings.canSound)
+        {
+            Debug.Log("코인");
+            SfxSound(0);
+        }
+        else if(other.tag == "Gem" && Settings.canSound)
+        {
+            SfxSound(0);
+        }
+        else if (other.tag == "Energy" && Settings.canSound)
+        {
+            SfxSound(0);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Coin" && Settings.canSound)
+        {
+            Debug.Log("코인");
+            SfxSound(0);
+        }
+    }
+
     // Init Player
     void InitPlayer()
     {
         rbody = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
 
-        footPoint = transform.Find("FootPoint");
+        audioPoint = transform.Find("AudioPoint");
         gunPoint = transform.Find("GunPoint");
 
         ground = 1 << LayerMask.NameToLayer("Ground"); // 탐지할 레이어를 Ground로 설정
         extents = GetComponent<Collider2D>().bounds.extents; // Collider2D 사이즈의 절반 크기를 구함
+
+        render = GetComponentInChildren<SpriteRenderer>();
 
         // 변수 초기값 설정
         speedRun = Settings.SPEED_RUN;

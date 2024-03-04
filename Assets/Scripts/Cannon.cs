@@ -15,9 +15,12 @@ public class Cannon : MonoBehaviour
     Transform target;    // 플레이어
     Transform healthBar; // 체력바
 
+    AudioSource cannonAudioSource;
+
     void Start()
     {
         InitMonster();
+        cannonAudioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -47,8 +50,9 @@ public class Cannon : MonoBehaviour
         cannon.GetComponent<Rigidbody2D>().AddForce(cannon.transform.up * shotPower); // 발사체의 수직 방향으로 발사
         if (Settings.canSound)
         {
-            AudioClip clip = Resources.Load("Audio/CannonShot") as AudioClip;
-            AudioSource.PlayClipAtPoint(clip, pos);
+            /*AudioClip clip = Resources.Load("Audio/CannonShot") as AudioClip;
+            AudioSource.PlayClipAtPoint(clip, pos);*/
+            cannonAudioSource.Play();
         }
     }
 
@@ -90,6 +94,9 @@ public class Cannon : MonoBehaviour
 
         if (hp < 0)
         {
+            Vector3 pos = transform.position;
+            Instantiate(Resources.Load("MonsterExplosion"), pos, Quaternion.identity);
+
             SendMessage("SetDestroy", transform.position);
             Destroy(gameObject);
         }
