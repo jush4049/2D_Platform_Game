@@ -1,1 +1,1 @@
-토이 프로젝트
+Toy Project : 2D platform Game
