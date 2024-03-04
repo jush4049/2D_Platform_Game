@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TextEditor
 {
-    public const string CURRENT_FONT = "Assets/Resources/Fonts/MainFont.ttf"; // 적용할 폰트의 경로
+    /*public const string CURRENT_FONT = "Assets/Resources/Fonts/MainFont.ttf"; // 적용할 폰트의 경로
 
     [MenuItem("CustomMenu/ChangeUITextFont (현재 Scene 내 UIText 폰트 교체")]
     public static void ChangeFontInUIText()
@@ -28,5 +28,5 @@ public class TextEditor
         Scene currentScene = SceneManager.GetActiveScene();
 
         return currentScene.GetRootGameObjects();
-    }
+    }*/
 }
