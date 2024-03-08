@@ -126,6 +126,7 @@ public class Boss : MonoBehaviour
         // Collider, Animation 비활성화
         obj.GetComponent<Collider2D>().isTrigger = false;
         //obj.GetComponent<Animation>().enabled = false;
+        obj.GetComponentInChildren<Collider2D>().isTrigger = true;
 
         // z축으로 -20 ~ 20도 회전
         float angle = Random.Range(-20, 20);

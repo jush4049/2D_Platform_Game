@@ -61,6 +61,7 @@ public class ScoreText : MonoBehaviour
         }
     }
 
+    // 리스폰 포인트 설정
     void RespawnPoint()
     {
         textScore = transform.Find("ScoreText").GetComponent<Text>();

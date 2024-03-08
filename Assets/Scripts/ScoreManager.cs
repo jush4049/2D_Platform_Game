@@ -13,24 +13,29 @@ public class ScoreManager
 
     static public bool isStart = true; // 게임이 시작되는가?
 
-    /*score += Settings.COIN_SCORE;
-    score += Settings.GEM_SCORE;
+    /*
     score += combo * Settings.COIN_SCORE;*/
 
     void OnEnable()
     {
         string str = SceneManager.GetActiveScene().name;
     }
+
     static public void AddCoin()
     {
         coinCount++;
-        score += 10;
+        score += Settings.COIN_SCORE;
     }
 
     static public void AddGem()
     {
         gemCount++;
-        score += 50;
+        score += Settings.GEM_SCORE;
+    }
+
+    static public void AddEnergy()
+    {
+        score += Settings.ENERGY_SCORE;
     }
 
     static public void AddCombo(bool isCombo)

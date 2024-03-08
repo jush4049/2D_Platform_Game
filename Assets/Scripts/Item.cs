@@ -39,7 +39,7 @@ public class Item : MonoBehaviour
                 break;
             case "Energy":
                 score.SendMessage("SetScore", Settings.ENERGY_SCORE);
-                ScoreManager.AddGem();
+                ScoreManager.AddEnergy();
                 break;
         }
         Destroy(gameObject);

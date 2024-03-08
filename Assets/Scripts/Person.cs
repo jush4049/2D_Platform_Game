@@ -35,24 +35,8 @@ public class Person : MonoBehaviour
     {
         if (target != null && Time.time - time > delay)
         {
-            ShootPerson();
             time = Time.time;
         }
-    }
-
-    void ShootPerson()
-    {
-        // 플레이어의 방향
-        int dir = (pos.x > target.position.x) ? 1 : -1;
-
-        /*GameObject bullet = Instantiate(Resources.Load("SpikeBall")) as GameObject;
-        bullet.transform.position = pos;
-        bullet.GetComponent<SpikeBall>().SetSpeedAndDamage(0, damage);*/
-        /*if (Settings.canSound)
-        {
-            AudioClip clip = Resources.Load("Audio/???") as AudioClip;
-            AudioSource.PlayClipAtPoint(clip, pos);
-        }*/
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -62,19 +46,12 @@ public class Person : MonoBehaviour
             target = other.transform;
             pos = person.position;
 
-            // 플레이어 방향으로 회전
-            // dir = (transform.position.x > target.position.x) ? 1 : -1;
-
             int localScaledir = (transform.position.x > target.position.x) ? -1 : 1;
 
             // 플레이어 방향으로 뒤집기
             Vector3 scale = transform.localScale;
             scale.x = Mathf.Abs(scale.x) * localScaledir;
             transform.localScale = scale;
-
-            // 애니메이션 중단 시간 저장
-            /*animTime = anim[clipName].time;
-            anim.Stop();*/
         }
     }
 
@@ -83,10 +60,6 @@ public class Person : MonoBehaviour
         if (other.tag == "Player")
         {
             target = null;
-
-            // 중단 시간부터 애니메이션 재생
-            /*anim[clipName].time = animTime;
-            anim.Play();*/
         }
     }
 
@@ -105,8 +78,6 @@ public class Person : MonoBehaviour
 
     void SetDamage()
     {
-        //Instantiate(Resources.Load("CannonBall"), transform.position, Quaternion.identity);
-
         hp--;
         healthBar.SendMessage("SetHP", hp / Enemy.Find(name).hp);
 
@@ -122,8 +93,6 @@ public class Person : MonoBehaviour
         person = transform.GetChild(0);
 
         anim = person.GetComponent<Animation>();
-        /*clipName = anim.clip.name;
-        anim[clipName].speed = animSpeed;*/
 
         hp = Enemy.Find(name).hp;
         damage = Enemy.Find(name).damage;

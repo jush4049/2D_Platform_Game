@@ -6,7 +6,7 @@ public class Settings
     static public bool canMusic = true; // 배경음악 ON/OFF
     static public bool canSound = true; // Player 수
     static public int level = 0;        // 난이도 설정, 몬스터의 능력을 높이는 용도로 처리
-    static public bool isMoblie = true; // 모바일 기기 체크
+    // static public bool isMoblie = true; // 모바일 기기 체크
 
     // 사용 언어
     static public int language = 0;
@@ -50,9 +50,5 @@ public class Settings
     public const int COMBO_SCORE = 100; // 콤보 득점
 
     public const int HP_ADD = 5;       // 주인공 체력 획득
-    #endregion
-
-    #region "Enmey Status -----------"
-    // 별도의 Class로 작성
     #endregion
 }

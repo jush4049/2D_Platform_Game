@@ -224,8 +224,6 @@ public class Player : MonoBehaviour
     {
         if (Settings.canSound)
         {
-            /*AudioClip clip = Resources.Load("Audio/PlayerHurt") as AudioClip;
-            AudioSource.PlayClipAtPoint(clip, transform.position);*/
             SfxSound(2);
             StartCoroutine(Hurt());
         }
@@ -234,8 +232,6 @@ public class Player : MonoBehaviour
         {
             hp += damage;
             Debug.Log("데미지 입음, " + damage);
-            /*hp = (damage < 0) ? damage : hp - damage;
-            AudioPoint.SendMessage("SetDamage", damage);*/
             Debug.Log("hp : " + hp);
         }
     }
@@ -251,7 +247,6 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "Coin" && Settings.canSound)
         {
-            Debug.Log("코인");
             SfxSound(0);
         }
         else if(other.tag == "Gem" && Settings.canSound)
@@ -260,15 +255,6 @@ public class Player : MonoBehaviour
         }
         else if (other.tag == "Energy" && Settings.canSound)
         {
-            SfxSound(0);
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "Coin" && Settings.canSound)
-        {
-            Debug.Log("코인");
             SfxSound(0);
         }
     }

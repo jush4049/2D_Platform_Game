@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
-    AudioSource audio;
+    AudioSource respawnAudio;
 
     void Start()
     {
-        audio = GetComponent<AudioSource>();
+        respawnAudio = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter2D (Collider2D other)
@@ -24,7 +24,7 @@ public class Respawn : MonoBehaviour
             score.transform.position = transform.position;
             score.SendMessage("RespawnPoint");
 
-            audio.Play();
+            respawnAudio.Play();
         }
     }
 }
